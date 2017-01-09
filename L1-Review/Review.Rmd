@@ -1,0 +1,46 @@
+---
+title: "Lab 1: Review"
+author: "Public Health Metrics"
+date: "January 9, 2017"
+output: html_document
+---
+
+```{r L1, echo=FALSE, warning=FALSE, message=FALSE}
+#The dataset we are exploring has influenza and pneumonia deaths on a state and national level, over time.
+#https://www.healthdata.gov/dataset/deaths-pnuemonia-and-influneza-and-all-deaths-state-and-region-national-center-health
+
+#We will be requiring knitr, dplyr, and ggplot2
+
+
+
+#Read in the dataset
+
+
+
+#Handle NA values
+
+
+
+
+#Create one summary table and one plot about two different aspects of the dataset. Include a small paragraph explaining what each table/plot is showing.
+
+```
+
+###Your explanation goes here!
+Play around with markdown syntax to create *interesting* and **engaging** text.
+
+```{r table, echo=FALSE}
+#Summary Table
+
+```
+
+```{r plot, echo=FALSE}
+#Plot
+
+```
+
+```{r challenge, echo=FALSE}
+#If you are looking for a challenge, try to use the MMWR.Year.Week data to show the number of deaths over time for one season
+
+```
+

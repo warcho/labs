@@ -1,0 +1,56 @@
+---
+title: "L1 Answers"
+author: "Public Health Metrics"
+date: "January 8, 2017"
+output: html_document
+---
+
+```{r L1, echo=FALSE, warning=FALSE, message=FALSE}
+#The dataset we are exploring has influenza and pneumonia deaths on a state and national level, over time. 
+
+#We will be requiring knitr, dplyr, and ggplot2
+setwd('~/TA stuff/Winter2017/labs/L1-Review/')
+require(dplyr)
+require(knitr)
+require(ggplot2)
+
+#Read in the dataset
+deaths <- read.csv('flu_deaths.csv')
+
+#Handle NA values
+deaths[is.na(deaths)] <- 0
+
+```
+
+This table shows the number of flu and pneumonia deaths by state for 2016-17, with California having the most deaths and Connecticut having the lowest amount with **0** deaths.
+
+```{r summary, echo=FALSE}
+
+#Summary table
+deaths_summary <- filter(deaths, geoid == "State", season == "2016-17") %>%
+                  select(State, season, Deaths.from.pneumonia.and.influenza) %>%
+                  group_by(State, season) %>%
+                  summarize(num_deaths = sum(Deaths.from.pneumonia.and.influenza)) %>%
+                  select(State, num_deaths) %>%
+                  arrange(desc(num_deaths))
+
+kable(deaths_summary)
+
+```
+
+This plot shows the percent of total deaths in the USA caused by the flu and pnemonia between 2009 and 2017. As can be expected, the 2017 values are quite *low* considering how it is currently early January of 2017.
+
+```{r plot, echo=FALSE}
+
+#Plot
+deaths_plot <- filter(deaths, geoid == "National", age == "65 years and older") %>%
+               select(geoid, age, season, Deaths.from.pneumonia.and.influenza, All.Deaths) %>%
+               group_by(season) %>%
+               summarize(flu_deaths = sum(Deaths.from.pneumonia.and.influenza), 
+                         total_deaths = sum(All.Deaths), 
+                         percent_flu = (flu_deaths / total_deaths * 100))
+
+p <- ggplot(deaths_plot, aes(season, percent_flu))
+p + geom_point()
+
+```
