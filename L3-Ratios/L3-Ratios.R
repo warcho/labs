@@ -1,7 +1,8 @@
 #Welcome to Lab 3, please answer the following questions
 
 #Install and require package MASS
-
+library(MASS)
+library(dplyr)
 
 #Using the built in dataset anorexia, aggregate the data to look at:
 #       1. the number of patients who received a treatment (choose one) who responded positively to treatment
@@ -10,7 +11,16 @@
 #       4. the number of patients who were in the control group who did not respond or responded negatively to treatment
 
 #Such that you end up with a 2 by 2 table
+treatment <- filter(anorexia, Treat=="CBT")
 
+neg.response <- mutate(treatment, wtchange = treatment$Postwt - treatment$Prewt) %>% 
+                  filter(wtchange <= 0)
+
+data <- mutate(anorexia, wtchange = anorexia$Postwt - anorexia$Prewt) %>% 
+          filter(Treat == "Cont")
+
+cont.pos <- filter(data, wtchange > 0)
+cont.neg <- filter(data, wtchange <= 0)
 
 #What kind of analysis appropriate to perform on a study like this?
 
