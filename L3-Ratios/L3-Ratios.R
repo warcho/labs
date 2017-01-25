@@ -11,16 +11,22 @@ library(dplyr)
 #       4. the number of patients who were in the control group who did not respond or responded negatively to treatment
 
 #Such that you end up with a 2 by 2 table
-treatment <- filter(anorexia, Treat=="CBT")
+treatment <- mutate(anorexia, wtchange = anorexia$Postwt - anorexia$Prewt) %>%
+                filter(Treat=="CBT")
 
-neg.response <- mutate(treatment, wtchange = treatment$Postwt - treatment$Prewt) %>% 
-                  filter(wtchange <= 0)
+treat.pos <- filter(treatment, wtchange > 0)
+treat.neg <- filter(treatment, wtchange <= 0)
 
 data <- mutate(anorexia, wtchange = anorexia$Postwt - anorexia$Prewt) %>% 
           filter(Treat == "Cont")
 
 cont.pos <- filter(data, wtchange > 0)
 cont.neg <- filter(data, wtchange <= 0)
+
+nrow(treat.pos)
+nrow(treat.neg)
+nrow(cont.pos)
+nrow(cont.neg)
 
 #What kind of analysis appropriate to perform on a study like this?
 
